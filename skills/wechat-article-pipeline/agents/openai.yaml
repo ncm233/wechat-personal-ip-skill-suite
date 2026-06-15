@@ -1,0 +1,4 @@
+interface:
+  display_name: "WeChat Article Pipeline"
+  short_description: "Coordinate rewrite, cover, layout, and draft upload."
+  default_prompt: "Use $wechat-article-pipeline to create a WeChat article with selectable article_style and cover_style, then generate cover, layout HTML, and optionally upload to draft box."

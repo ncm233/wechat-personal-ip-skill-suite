@@ -1,0 +1,4 @@
+interface:
+  display_name: "WeChat Style Factory"
+  short_description: "Distill article and cover style libraries."
+  default_prompt: "Use $wechat-style-factory to extract article and cover styles from my local archive, then prepare them for the WeChat pipeline."

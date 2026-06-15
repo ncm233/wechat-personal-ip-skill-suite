@@ -1,0 +1,4 @@
+interface:
+  display_name: "WeChat Cover Image"
+  short_description: "Generate WeChat public-account cover images with selectable editorial styles."
+  default_prompt: "Use $wechat-cover-image to create a WeChat cover from my rewritten article. Let me choose default-editorial, every.to, abstract-magazine, science-collage, classical-dark-poster, or dark-woodcut style."

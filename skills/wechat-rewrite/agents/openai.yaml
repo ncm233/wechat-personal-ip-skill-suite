@@ -1,0 +1,4 @@
+interface:
+  display_name: "WeChat Rewrite"
+  short_description: "Rewrite source material into WeChat public-account articles with selectable writing styles."
+  default_prompt: "Use $wechat-rewrite to rewrite my source material into a WeChat article. Let me choose default-personal, tech-media-news, or ai-tech-review style."
