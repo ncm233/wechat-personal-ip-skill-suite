@@ -18,8 +18,14 @@ from PIL import Image
 DEFAULT_BASE_URL = "https://api.apiyi.com/v1"
 DEFAULT_MODEL = "gpt-image-2"
 DEFAULT_GENERATION_SIZE = "1808x768"
+DEFAULT_GEMINI_IMAGE_SIZE = "16:9"
 DEFAULT_MAIN_SIZE = "900x383"
 DEFAULT_SQUARE_SIZE = "500x500"
+DEFAULT_USER_AGENT = (
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) "
+    "AppleWebKit/537.36 (KHTML, like Gecko) "
+    "Chrome/125.0.0.0 Safari/537.36"
+)
 SCRIPT_DIR = Path(__file__).resolve().parent
 SKILL_DIR = Path(__file__).resolve().parents[1]
 WINDOWS_WORKSPACE = Path(r"D:\Users\ZhuanZ（无密码）\Documents\New project")
@@ -63,15 +69,27 @@ def get_api_key():
     return key
 
 
-def post_json(url, payload, api_key, timeout):
+def auth_header_value(api_key, base_url, auth_scheme):
+    scheme = (auth_scheme or "").strip().lower()
+    if scheme in {"none", "raw", "key"}:
+        return api_key
+    if scheme == "bearer":
+        return f"Bearer {api_key}"
+    if "gptproto.com" in base_url.lower():
+        return api_key
+    return f"Bearer {api_key}"
+
+
+def post_json(url, payload, api_key, timeout, user_agent, auth_scheme, base_url):
     body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
     request = urllib.request.Request(
         url,
         data=body,
         headers={
-            "Authorization": f"Bearer {api_key}",
+            "Authorization": auth_header_value(api_key, base_url, auth_scheme),
             "Content-Type": "application/json",
             "Accept": "application/json",
+            "User-Agent": user_agent,
         },
         method="POST",
     )
@@ -80,9 +98,9 @@ def post_json(url, payload, api_key, timeout):
             return json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as exc:
         detail = exc.read().decode("utf-8", errors="replace")
-        raise SystemExit(f"APiYi request failed: HTTP {exc.code}\n{detail}") from exc
+        raise SystemExit(f"Image API request failed: HTTP {exc.code}\n{detail}") from exc
     except urllib.error.URLError as exc:
-        raise SystemExit(f"APiYi request failed: {exc}") from exc
+        raise SystemExit(f"Image API request failed: {exc}") from exc
 
 
 def download_url(url, timeout):
@@ -129,6 +147,8 @@ def build_payload(args):
 
     if args.model in {"gpt-image-2", "gpt-image-2-vip"}:
         payload["size"] = args.size
+    elif args.model in {"gemini-3.1-flash-image-preview", "gemini-3-pro-image-preview"}:
+        payload["size"] = args.size
 
     if args.model == "gpt-image-2":
         payload["quality"] = args.quality
@@ -146,12 +166,14 @@ def main():
     parser.add_argument("--basename", default=None, help="Base filename without extension.")
     parser.add_argument("--model", default=os.environ.get("WECHAT_COVER_MODEL", DEFAULT_MODEL))
     parser.add_argument("--base-url", default=os.environ.get("GPTPROTO_BASE_URL") or os.environ.get("APIYI_BASE_URL", DEFAULT_BASE_URL))
-    parser.add_argument("--size", default=DEFAULT_GENERATION_SIZE, help="Generation size for models that accept size.")
+    parser.add_argument("--size", default=os.environ.get("WECHAT_COVER_SIZE", DEFAULT_GENERATION_SIZE), help="Generation size or aspect ratio for models that accept size.")
     parser.add_argument("--quality", default="high", choices=["auto", "low", "medium", "high"])
     parser.add_argument("--main-size", default=DEFAULT_MAIN_SIZE, type=parse_size)
     parser.add_argument("--square-size", default=DEFAULT_SQUARE_SIZE, type=parse_size)
     parser.add_argument("--output-compression", default=90, type=int)
     parser.add_argument("--timeout", default=600, type=int)
+    parser.add_argument("--user-agent", default=os.environ.get("GPTPROTO_USER_AGENT", DEFAULT_USER_AGENT))
+    parser.add_argument("--auth-scheme", default=os.environ.get("GPTPROTO_AUTH_SCHEME", "auto"), help="Authorization scheme: auto, raw, or bearer.")
     parser.add_argument("--dry-run", action="store_true", help="Print request payload without calling the API.")
     args = parser.parse_args()
 
@@ -167,10 +189,12 @@ def main():
             "payload": payload,
             "loaded_env_files": loaded_envs,
             "has_api_key": bool(os.environ.get("GPTPROTO_API_KEY") or os.environ.get("APIYI_API_KEY") or os.environ.get("YI_API_KEY")),
+            "user_agent": args.user_agent,
+            "auth_scheme": args.auth_scheme,
         }, ensure_ascii=False, indent=2))
         return
 
-    response = post_json(f"{args.base_url.rstrip('/')}/images/generations", payload, get_api_key(), args.timeout)
+    response = post_json(f"{args.base_url.rstrip('/')}/images/generations", payload, get_api_key(), args.timeout, args.user_agent, args.auth_scheme, args.base_url)
     raw_bytes = image_bytes_from_response(response, args.timeout)
 
     raw_path = output_dir / f"{basename}-raw"
