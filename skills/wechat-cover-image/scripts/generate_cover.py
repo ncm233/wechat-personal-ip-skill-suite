@@ -20,6 +20,32 @@ DEFAULT_MODEL = "gpt-image-2"
 DEFAULT_GENERATION_SIZE = "1808x768"
 DEFAULT_MAIN_SIZE = "900x383"
 DEFAULT_SQUARE_SIZE = "500x500"
+SCRIPT_DIR = Path(__file__).resolve().parent
+SKILL_DIR = Path(__file__).resolve().parents[1]
+WINDOWS_WORKSPACE = Path(r"D:\Users\ZhuanZ（无密码）\Documents\New project")
+
+
+def load_env_file(path):
+    if not path.exists():
+        return False
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        key = key.strip().lstrip("\ufeff")
+        value = value.strip().strip('"').strip("'")
+        if key and key not in os.environ:
+            os.environ[key] = value
+    return True
+
+
+def load_env_files():
+    loaded = []
+    for path in (SCRIPT_DIR / ".env", SKILL_DIR / ".env", WINDOWS_WORKSPACE / ".env"):
+        if load_env_file(path):
+            loaded.append(str(path))
+    return loaded
 
 
 def parse_size(raw):
@@ -31,9 +57,9 @@ def parse_size(raw):
 
 
 def get_api_key():
-    key = os.environ.get("APIYI_API_KEY") or os.environ.get("YI_API_KEY")
+    key = os.environ.get("GPTPROTO_API_KEY") or os.environ.get("APIYI_API_KEY") or os.environ.get("YI_API_KEY")
     if not key:
-        raise SystemExit("Missing API key. Set APIYI_API_KEY or YI_API_KEY.")
+        raise SystemExit("Missing API key. Set GPTPROTO_API_KEY, APIYI_API_KEY, or YI_API_KEY.")
     return key
 
 
@@ -113,12 +139,13 @@ def build_payload(args):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate a WeChat cover image through APiYi GPT Image 2.")
+    loaded_envs = load_env_files()
+    parser = argparse.ArgumentParser(description="Generate a WeChat cover image through an OpenAI-compatible GPT Image API.")
     parser.add_argument("--prompt", required=True, help="Final image-generation prompt.")
     parser.add_argument("--output-dir", default=".", help="Directory for generated files.")
     parser.add_argument("--basename", default=None, help="Base filename without extension.")
     parser.add_argument("--model", default=os.environ.get("WECHAT_COVER_MODEL", DEFAULT_MODEL))
-    parser.add_argument("--base-url", default=os.environ.get("APIYI_BASE_URL", DEFAULT_BASE_URL))
+    parser.add_argument("--base-url", default=os.environ.get("GPTPROTO_BASE_URL") or os.environ.get("APIYI_BASE_URL", DEFAULT_BASE_URL))
     parser.add_argument("--size", default=DEFAULT_GENERATION_SIZE, help="Generation size for models that accept size.")
     parser.add_argument("--quality", default="high", choices=["auto", "low", "medium", "high"])
     parser.add_argument("--main-size", default=DEFAULT_MAIN_SIZE, type=parse_size)
@@ -135,7 +162,12 @@ def main():
     payload = build_payload(args)
 
     if args.dry_run:
-        print(json.dumps({"url": f"{args.base_url.rstrip('/')}/images/generations", "payload": payload}, ensure_ascii=False, indent=2))
+        print(json.dumps({
+            "url": f"{args.base_url.rstrip('/')}/images/generations",
+            "payload": payload,
+            "loaded_env_files": loaded_envs,
+            "has_api_key": bool(os.environ.get("GPTPROTO_API_KEY") or os.environ.get("APIYI_API_KEY") or os.environ.get("YI_API_KEY")),
+        }, ensure_ascii=False, indent=2))
         return
 
     response = post_json(f"{args.base_url.rstrip('/')}/images/generations", payload, get_api_key(), args.timeout)
@@ -165,6 +197,7 @@ def main():
         "generation_size": args.size if args.model in {"gpt-image-2", "gpt-image-2-vip"} else "prompt-controlled",
         "main_size": f"{args.main_size[0]}x{args.main_size[1]}",
         "square_size": f"{args.square_size[0]}x{args.square_size[1]}",
+        "loaded_env_files": loaded_envs,
     }, ensure_ascii=False, indent=2))
 
 

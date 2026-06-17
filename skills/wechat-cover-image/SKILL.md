@@ -1,6 +1,6 @@
 ---
 name: wechat-cover-image
-description: Use when the user says "@公众号封面", "公众号封面图", "给这篇公众号配封面", "根据改写文章生成封面", or wants to generate a WeChat public-account cover image from a rewritten article using APiYi ChatGPT/GPT Image 2. Supports selectable cover styles including default-editorial, every.to, abstract-magazine / 高端思想杂志式抽象 editorial 封面艺术风格, science-collage / 观念型科学杂志拼贴插画风格, classical-dark-poster / 古典艺术底图融合现代极简排版的暗调 editorial 社交海报风格, and dark-woodcut / 复古黑白木刻版画与迷幻暗黑线描风格.
+description: Use when the user says "@公众号封面", "公众号封面图", "给这篇公众号配封面", "根据改写文章生成封面", or wants to generate a WeChat public-account cover image from a rewritten article using an OpenAI-compatible GPT Image API such as GPTProto or APiYi. Supports selectable cover styles including default-editorial, every.to, abstract-magazine / 高端思想杂志式抽象 editorial 封面艺术风格, science-collage / 观念型科学杂志拼贴插画风格, classical-dark-poster / 古典艺术底图融合现代极简排版的暗调 editorial 社交海报风格, and dark-woodcut / 复古黑白木刻版画与迷幻暗黑线描风格.
 ---
 
 # WeChat Cover Image
@@ -28,24 +28,35 @@ Because `gpt-image-2` requires generated sizes to use dimensions divisible by 16
 
 ## API Setup
 
-Use APiYi token management at:
+Use an OpenAI-compatible image-generation API. The current local setup uses GPTProto:
 
 ```text
-https://api.apiyi.com/token
+https://gptproto.com/v1
 ```
 
 Do not write API keys into this skill or committed files. Before generation, require one of:
 
 ```bash
+export GPTPROTO_API_KEY="..."
+# or
 export APIYI_API_KEY="..."
 # or
 export YI_API_KEY="..."
 ```
 
-The default API base is:
+The script automatically loads local secret files from:
 
 ```text
-https://api.apiyi.com/v1
+C:\Users\ZhuanZ（无密码）\.codex\skills\wechat-cover-image\scripts\.env
+C:\Users\ZhuanZ（无密码）\.codex\skills\wechat-cover-image\.env
+D:\Users\ZhuanZ（无密码）\Documents\New project\.env
+```
+
+Supported base URL variables:
+
+```text
+GPTPROTO_BASE_URL=https://gptproto.com/v1
+APIYI_BASE_URL=https://api.apiyi.com/v1
 ```
 
 ## Style Options
@@ -413,7 +424,7 @@ python $env:USERPROFILE\.codex\skills\wechat-cover-image\scripts\generate_cover.
 Defaults:
 
 - Model: `gpt-image-2`
-- API base: `https://api.apiyi.com/v1`
+- API base: local `.env` default is `https://gptproto.com/v1`; fallback default is `https://api.apiyi.com/v1`
 - Generation size: `1808x768`
 - Quality: `high`
 - Exact main output: `900x383`
