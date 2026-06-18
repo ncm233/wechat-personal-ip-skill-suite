@@ -157,6 +157,7 @@ Always save `draft-result.json`. If upload was not attempted because of an error
 - If rewrite succeeds but cover generation fails, keep `rewritten.md` and `cover-prompt.md`, report the image API error, and stop before layout only if the cover is required for the next step.
 - If layout succeeds but draft upload fails, keep `article.html`, `article.txt`, and the cover files, then report the WeChat `errcode` and next action.
 - If WeChat returns an IP whitelist error such as `40164`, tell the user to add the current outbound IP to the Official Account backend IP whitelist.
+- If WeChat returns `40125 invalid appsecret` or `40001 invalid credential` while getting `access_token`, treat it as a credential problem before any upload occurred. Tell the user the local AppSecret is no longer valid or does not match the AppID. Common causes: AppSecret was reset, copied incorrectly, frozen/disabled, or belongs to another Official Account. Ask the user to provide the current AppSecret from the WeChat backend, then update only the local `.env` secret file and retry. Never reveal the old or new AppSecret in the response.
 - Do not expose API keys, AppSecret, access tokens, or full credentials in the final response.
 
 ## Output Shape

@@ -63,8 +63,17 @@ def wechat_hint(data):
         return "IP whitelist error. Add this machine/server outbound IP in WeChat backend: 设置与开发 -> 基本配置 -> IP白名单."
     if code == 40013:
         return "Invalid AppID. Check WECHAT_APPID."
-    if code in {40001, 40125}:
-        return "Invalid AppSecret or token credential. Check WECHAT_APPSECRET."
+    if code == 40125:
+        return (
+            "Invalid AppSecret. The local AppSecret may have been reset, copied incorrectly, "
+            "frozen/disabled, or paired with the wrong AppID. Confirm the current AppSecret "
+            "in the WeChat backend, update the local .env, then retry."
+        )
+    if code == 40001:
+        return (
+            "Invalid credential. Check whether WECHAT_APPID/WECHAT_APPSECRET are current, "
+            "paired correctly, and loaded from the intended .env file."
+        )
     if code == 48001:
         return "API not authorized for this account. Check Official Account interface permissions."
     if code == 45009:

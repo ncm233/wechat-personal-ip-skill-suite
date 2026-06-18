@@ -68,6 +68,15 @@ GET https://api.weixin.qq.com/cgi-bin/token
 
 If the request returns IP whitelist errors such as `40164`, tell the user to add the current machine/server outbound IP to WeChat Official Account backend `设置与开发 -> 基本配置 -> IP白名单`.
 
+If the request returns `40125 invalid appsecret` or `40001 invalid credential`, stop before uploading media or creating a draft. Explain that the local AppSecret is invalid or no longer matches the AppID. Common causes:
+
+- AppSecret was reset in the WeChat backend, so the old value is invalid.
+- AppSecret was copied incorrectly, with missing/extra characters or whitespace.
+- AppSecret is frozen/disabled.
+- AppID and AppSecret belong to different Official Accounts.
+
+Ask the user to confirm the current AppSecret in the WeChat backend, update the local `.env` only, then retry. Do not print or expose the AppSecret.
+
 ### Step 3: Upload Inline Images
 
 For local body images, call:
@@ -146,6 +155,7 @@ Optional:
 - Do not overwrite or delete existing drafts.
 - If the user asks to publish publicly, stop and create a separate plan/checklist first.
 - If WeChat returns an error, report the `errcode`, a short explanation, and the next action.
+- For `40125` / `40001` credential failures, explicitly say no draft was created and no media was uploaded because the failure happened at `get_access_token`.
 
 ## Output Shape
 
