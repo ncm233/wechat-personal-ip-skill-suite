@@ -7,6 +7,19 @@ description: Use when the user says "@公众号排版", "公众号排版", "把�
 
 Format rewritten Chinese articles into a clean WeChat public-account layout that can be pasted into the WeChat editor. The default layout follows the reference article at `https://mp.weixin.qq.com/s/qrKl1oWRLcxtMYdpE-jr4g`: large readable body text, generous paragraph spacing, sparse separators, and no decorative template components.
 
+## Layout Style Options
+
+Choose a layout style before formatting:
+
+1. `minimalist` (default): large readable body text, generous paragraph spacing, sparse separators, no decorative template components. Uses `scripts/format_wechat_article.py`.
+2. `bm-green`: bm.md / green-simple style installed from `wechat-article-formatter`. Uses green accent color, black-background H2 heading chips, styled blockquotes, tables, code blocks, and `styles/custom.css`. Uses `scripts/format_bm_md_article.py` and the installed CSS at:
+
+```text
+C:\Users\ZhuanZ（无密码）\.codex\skills\wechat-article-formatter\styles\custom.css
+```
+
+Use `bm-green` when the user asks for the imported `wechat-article-formatter`, `bm.md`, `green-simple`, green accent layout, or a more styled/template-like WeChat layout. Keep `minimalist` as the default when no layout style is specified.
+
 ## Reference Layout DNA
 
 Observed with browser/devtools on mobile and desktop:
@@ -95,6 +108,8 @@ python C:\Users\ZhuanZ（无密码）\.codex\skills\wechat-layout\scripts\format
 
 ### Step 4: Generate Files
 
+For default `minimalist` layout, use the bundled script:
+
 Use the bundled script:
 
 ```bash
@@ -117,6 +132,23 @@ The script outputs:
 - `<basename>.html`: WeChat-ready inline-style HTML.
 - `<basename>.txt`: clean plain-text copy for inspection.
 
+For `bm-green` layout, use:
+
+```bash
+python C:\Users\ZhuanZ（无密码）\.codex\skills\wechat-layout\scripts\format_bm_md_article.py \
+  --input "<article.md>" \
+  --output-dir "<target-folder>" \
+  --basename "<slug>"
+```
+
+This script also writes `<basename>.bm.md` for inspection. It calls:
+
+```text
+POST https://bm.md/api/markdown/render
+```
+
+with `markdownStyle=green-simple`, `codeTheme=kimbie-light`, `platform=wechat`, and the imported custom CSS. If bm.md is unavailable and the user explicitly asks for offline output, rerun with `--offline-fallback`.
+
 ### Step 5: Validate
 
 Check:
@@ -128,6 +160,7 @@ Check:
 - HTML uses inline styles suitable for WeChat editor pasting.
 - No external CSS, scripts, nested cards, or decorative template blocks.
 - If `--append-image` is used, the image is the final body element and uses a local path that the publisher can upload.
+- For `bm-green`, confirm `article.bm.md` exists and the HTML was rendered by bm.md or explicitly marked as offline fallback.
 
 ## Output Shape
 
@@ -142,6 +175,7 @@ Return:
 - 纯文本：<path>
 
 ## 排版说明
+- 排版风格：<minimalist or bm-green>
 - 正文字号：17px
 - 段落间距：24px
 - 分隔线数量：<n>

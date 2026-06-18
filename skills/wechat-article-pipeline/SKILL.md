@@ -55,6 +55,7 @@ The pipeline can accept style parameters:
 ```text
 article_style=<style-id>
 cover_style=<style-id>
+layout_style=<minimalist|bm-green>
 style_library=<path-to-style-library>
 ```
 
@@ -75,6 +76,13 @@ When `cover_style` is provided:
 - If it points to a generated cover style file such as `cover-01-clean-light`, read the corresponding Markdown file and contact sheet from the style library, then use its visual rules as the cover prompt style.
 
 If the user asks to build or refresh the style library, run `wechat-style-factory` first.
+
+When `layout_style` is provided:
+
+- `minimalist` is the default existing WeChat layout: large body text, high whitespace, sparse separators, no decorative template components.
+- `bm-green` uses the imported `wechat-article-formatter` / bm.md `green-simple` style with custom CSS, green accents, black H2 heading chips, styled blockquotes, tables, and code blocks.
+- If the user says `wechat-article-formatter`, `bm.md`, `green-simple`, `绿色排版`, or `导入的公众号排版skill`, map it to `layout_style=bm-green`.
+- If the user does not specify a layout style, use `minimalist`.
 
 ## Workflow
 
@@ -128,10 +136,12 @@ Validate that the main cover is exactly `900x383` and the square cover is exactl
 
 ### Step 5: Layout
 
-Use `wechat-layout` on `rewritten.md`. Save:
+Use `wechat-layout` on `rewritten.md`, applying `layout_style` when provided. Save:
 
 - `article.html`
 - `article.txt`
+
+For `minimalist`, run the existing `format_wechat_article.py` flow. For `bm-green`, run `format_bm_md_article.py`, which renders through bm.md with the imported `wechat-article-formatter` CSS and also writes `article.bm.md`.
 
 Validate that the HTML contains only the final article body, not title candidates or rewrite notes. Keep the recommended title separately for draft upload.
 
@@ -169,6 +179,7 @@ Return a compact production summary:
 - 状态：
 - 文章风格：
 - 封面风格：
+- 排版风格：
 - 标题：
 - 文章目录：
 
