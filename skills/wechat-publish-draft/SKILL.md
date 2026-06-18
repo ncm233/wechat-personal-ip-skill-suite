@@ -56,6 +56,10 @@ Check:
 - HTML file exists.
 - Cover image exists, unless `--cover-media-id` is provided.
 - HTML is inline-style and suitable for WeChat editor import.
+- HTML preserves visible article formatting: require inline `style=`, `font-size`, `line-height`, and paragraph tags before any network upload.
+- If the layout is `minimalist`, confirm the exported HTML still includes the inline paragraph typography from `wechat-layout`.
+- If the layout is `bm-green`, confirm the exported HTML includes bm.md/green markers such as `id="bm-md"`, `green-simple`, or green accent styles.
+- If formatting validation fails, stop before `get_access_token`, media upload, or draft creation; regenerate layout and retry.
 - Any local `<img src="...">` paths are reachable from the HTML file directory or absolute paths.
 
 ### Step 2: Get Access Token
@@ -152,6 +156,7 @@ Optional:
 - Create drafts only.
 - Do not call `freepublish/submit`, mass send APIs, or UI publish buttons.
 - Do not expose secrets in final output.
+- Do not upload HTML that has lost its formatting. The draft must be created from the styled `article.html`, and the result should include `formatting_checks`.
 - Do not overwrite or delete existing drafts.
 - If the user asks to publish publicly, stop and create a separate plan/checklist first.
 - If WeChat returns an error, report the `errcode`, a short explanation, and the next action.

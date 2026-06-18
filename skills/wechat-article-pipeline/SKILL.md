@@ -145,6 +145,8 @@ For `minimalist`, run the existing `format_wechat_article.py` flow. For `bm-gree
 
 Validate that the HTML contains only the final article body, not title candidates or rewrite notes. Keep the recommended title separately for draft upload.
 
+Validate that the generated HTML preserves import-ready formatting before moving to draft upload. It must include inline `style=`, `font-size`, `line-height`, and paragraph tags. For `minimalist`, expect the inline paragraph typography from `format_wechat_article.py`. For `bm-green`, expect bm.md/green markers such as `id="bm-md"`, `green-simple`, or green accent styles. If these checks fail, regenerate layout and do not upload.
+
 ### Step 6: Draft-Box Upload
 
 Run this step only when requested as part of the workflow.
@@ -154,6 +156,8 @@ Use `wechat-publish-draft` with:
 - `article.html`
 - recommended title from `rewritten.md`
 - `cover-900x383.jpg`
+
+The upload step must preserve the generated formatting in the WeChat draft. The uploader validates inline typography before calling WeChat APIs and writes `formatting_checks` into dry-run output and `draft-result.json`. If `formatting_checks` fails, stop before media upload or draft creation, regenerate `article.html`, and retry.
 
 Start with `--dry-run` only if the user asks for a trial, setup check, or validation. Otherwise create a real draft in the Official Account backend draft box.
 

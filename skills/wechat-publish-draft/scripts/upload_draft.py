@@ -183,6 +183,26 @@ def process_html_images(html_content, html_dir, token, dry_run=False):
     return html_content, replacements, warnings
 
 
+def validate_formatting(html_content):
+    lower = html_content.lower()
+    checks = {
+        "has_inline_style": "style=" in lower,
+        "has_font_size": "font-size" in lower,
+        "has_line_height": "line-height" in lower,
+        "has_paragraphs": "<p" in lower,
+    }
+    checks["looks_bm_green"] = 'id="bm-md"' in lower or "green-simple" in lower or "rgb(53, 179, 120)" in lower
+    checks["looks_minimalist"] = "letter-spacing: 0.544px" in html_content or "rgba(0,0,0,0.9)" in lower
+
+    if not (checks["has_inline_style"] and checks["has_font_size"] and checks["has_line_height"] and checks["has_paragraphs"]):
+        raise SystemExit(
+            "HTML formatting validation failed: the article does not appear to preserve inline WeChat styles "
+            "(style/font-size/line-height/paragraph tags). Regenerate layout before uploading to draft box."
+        )
+
+    return checks
+
+
 def create_draft(token, article):
     payload = {"articles": [article]}
     body = json.dumps(payload, ensure_ascii=False).encode("utf-8")
@@ -258,6 +278,7 @@ def main():
 
     appid, appsecret = get_credentials(args.account)
     html_content = html_path.read_text(encoding="utf-8")
+    formatting_checks = validate_formatting(html_content)
 
     token = "DRY_RUN_ACCESS_TOKEN" if args.dry_run else get_access_token(appid, appsecret)
     processed_html, image_replacements, warnings = process_html_images(html_content, html_path.parent, token, dry_run=args.dry_run)
@@ -276,6 +297,7 @@ def main():
             "cover": str(cover_path) if cover_path else None,
             "inline_images": len(image_replacements),
             "warnings": warnings,
+            "formatting_checks": formatting_checks,
             "draft_payload_preview": {
                 "articles": [{
                     **{k: v for k, v in article.items() if k != "content"},
@@ -295,6 +317,7 @@ def main():
         "cover_media_id": redacted(thumb_media_id),
         "inline_images": len(image_replacements),
         "warnings": warnings,
+        "formatting_checks": formatting_checks,
         "draft_media_id": redacted(draft_media_id),
         "raw_errcode": result.get("errcode", 0),
     }, ensure_ascii=False, indent=2), file=sys.stderr)
