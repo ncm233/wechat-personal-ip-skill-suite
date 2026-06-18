@@ -193,6 +193,10 @@ def validate_formatting(html_content):
     }
     checks["looks_bm_green"] = 'id="bm-md"' in lower or "green-simple" in lower or "rgb(53, 179, 120)" in lower
     checks["looks_minimalist"] = "letter-spacing: 0.544px" in html_content or "rgba(0,0,0,0.9)" in lower
+    checks["has_bold_headings"] = "<strong>" in lower and "font-weight: 700" in lower
+    checks["looks_reference_bold_hierarchy"] = (
+        checks["has_bold_headings"] and "font-size: 20px" in lower and "font-size: 17px" in lower
+    )
 
     if not (checks["has_inline_style"] and checks["has_font_size"] and checks["has_line_height"] and checks["has_paragraphs"]):
         raise SystemExit(

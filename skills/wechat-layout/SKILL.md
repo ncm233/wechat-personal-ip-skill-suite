@@ -13,12 +13,15 @@ Choose a layout style before formatting:
 
 1. `minimalist` (default): large readable body text, generous paragraph spacing, sparse separators, no decorative template components. Uses `scripts/format_wechat_article.py`.
 2. `bm-green`: bm.md / green-simple style installed from `wechat-article-formatter`. Uses green accent color, black-background H2 heading chips, styled blockquotes, tables, code blocks, and `styles/custom.css`. Uses `scripts/format_bm_md_article.py` and the installed CSS at:
+3. `reference-bold-hierarchy`: reference-account layout for batch WeChat drafts inspired by `https://mp.weixin.qq.com/s/tS-NFXhyg0EO-fUDEmH5gw`: medium-length article, clean body text, bold hierarchical section titles, and no source/context explanation inside the body. Uses `scripts/format_reference_bold_article.py`.
 
 ```text
 C:\Users\ZhuanZ（无密码）\.codex\skills\wechat-article-formatter\styles\custom.css
 ```
 
 Use `bm-green` when the user asks for the imported `wechat-article-formatter`, `bm.md`, `green-simple`, green accent layout, or a more styled/template-like WeChat layout. Keep `minimalist` as the default when no layout style is specified.
+
+Use `reference-bold-hierarchy` when the user asks to follow the reference account layout, asks for each section title to be bold and hierarchical, or asks for batch WeChat drafts to look closer to the referenced account. Target 900-1600 Chinese characters unless the source requires more; prefer a tight opening plus 3-5 numbered sections. Do not include source-processing explanations such as `from YouMind`, `source says`, or `this was rewritten from...` in the article body.
 
 ## Reference Layout DNA
 
@@ -149,6 +152,33 @@ POST https://bm.md/api/markdown/render
 
 with `markdownStyle=green-simple`, `codeTheme=kimbie-light`, `platform=wechat`, and the imported custom CSS. If bm.md is unavailable and the user explicitly asks for offline output, rerun with `--offline-fallback`.
 
+For `reference-bold-hierarchy` layout, use:
+
+```bash
+python C:\Users\ZhuanZ锛堟棤瀵嗙爜锛塡.codex\skills\wechat-layout\scripts\format_reference_bold_article.py \
+  --input "<article.md>" \
+  --output-dir "<target-folder>" \
+  --basename "<slug>"
+```
+
+Expected Markdown structure:
+
+```markdown
+Opening paragraph.
+
+---
+
+## 01 Section title
+
+Section body.
+
+### Secondary title
+
+Secondary body.
+```
+
+The generated HTML must preserve `font-size`, `line-height`, inline `style=`, paragraphs, `<strong>`, `font-weight: 700`, and heading hierarchy (`20px` H2, `17px` H3/body).
+
 ### Step 5: Validate
 
 Check:
@@ -158,6 +188,7 @@ Check:
 - Paragraphs are readable and not over-segmented.
 - Separators mark major phase changes only.
 - HTML uses inline styles suitable for WeChat editor pasting.
+- For `reference-bold-hierarchy`, H2/H3 section titles are bold and visually distinct, while body text remains clean and medium-length.
 - No external CSS, scripts, nested cards, or decorative template blocks.
 - If `--append-image` is used, the image is the final body element and uses a local path that the publisher can upload.
 - For `bm-green`, confirm `article.bm.md` exists and the HTML was rendered by bm.md or explicitly marked as offline fallback.

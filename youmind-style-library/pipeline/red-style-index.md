@@ -1,0 +1,55 @@
+# Red Style Skill Index
+
+Use these red-marked style skills first for batch WeChat article generation. Prefer one unique article style per article and one unique cover style per article before reusing any style.
+
+- `0464-hermes-agent-personal-ai-os` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0464-hermes-agent-personal-ai-os\SKILL.md
+- `0465-the-novel-is-dead-ai` | tags: ai, narrative | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0465-the-novel-is-dead-ai\SKILL.md
+- `0466-hermes-finance-analyst-guide` | tags: ai, business | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0466-hermes-finance-analyst-guide\SKILL.md
+- `0494-claude-power-user-free-course` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0494-claude-power-user-free-course\SKILL.md
+- `0495-anthropic-claude-code-html-first` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0495-anthropic-claude-code-html-first\SKILL.md
+- `0501-basketball-player-ai-game-analysis` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0501-basketball-player-ai-game-analysis\SKILL.md
+- `0528-claude-md-productivity-setup-guide` | tags: ai, personal | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0528-claude-md-productivity-setup-guide\SKILL.md
+- `0529-roots-of-moral-harassment-men` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0529-roots-of-moral-harassment-men\SKILL.md
+- `0556-matsuko-deluxe-kindness-human-nature` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0556-matsuko-deluxe-kindness-human-nature\SKILL.md
+- `0579-child-mindset-reframing-parenting-tips` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0579-child-mindset-reframing-parenting-tips\SKILL.md
+- `0591-build-llm-architectures-practical-lessons` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0591-build-llm-architectures-practical-lessons\SKILL.md
+- `0599-musk-altman-openai-legal-war` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0599-musk-altman-openai-legal-war\SKILL.md
+- `0602-quit-promotion-race-build-capital` | tags: ai, business | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0602-quit-promotion-race-build-capital\SKILL.md
+- `0607-opus-kimi-coding-cost-reduction` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0607-opus-kimi-coding-cost-reduction\SKILL.md
+- `0612-mstr-bitcoin-liquidation-risk-analysis` | tags: ai, business | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0612-mstr-bitcoin-liquidation-risk-analysis\SKILL.md
+- `0614-100-year-old-copywriting-secrets` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0614-100-year-old-copywriting-secrets\SKILL.md
+- `0618-mac-mini-m4-ai-savings` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0618-mac-mini-m4-ai-savings\SKILL.md
+- `0619-graniph-summer-festival-2026-guide` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0619-graniph-summer-festival-2026-guide\SKILL.md
+- `0620-kimi-2-6-agent-swarm-speed` | tags: ai, business | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0620-kimi-2-6-agent-swarm-speed\SKILL.md
+- `0625-mit-student-study-methods-efficiency` | tags: ai, personal | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0625-mit-student-study-methods-efficiency\SKILL.md
+- `0659-agent-controlled-memory-rag-shift` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0659-agent-controlled-memory-rag-shift\SKILL.md
+- `0672-jomana-al-rashid-thamanya-leadership-transition` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0672-jomana-al-rashid-thamanya-leadership-transition\SKILL.md
+- `0675-karpathy-claude-md-ai-coding` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0675-karpathy-claude-md-ai-coding\SKILL.md
+- `0676-phd-level-ai-second-brain` | tags: ai, personal | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0676-phd-level-ai-second-brain\SKILL.md
+- `0680-ai-end-of-developer-specialization` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0680-ai-end-of-developer-specialization\SKILL.md
+- `0682-llm-application-tracing-primer` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0682-llm-application-tracing-primer\SKILL.md
+- `0694-mounjaro-diet-drug-business-scandal` | tags: ai, business | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0694-mounjaro-diet-drug-business-scandal\SKILL.md
+- `0705-hikaru-fragility-strong-words` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0705-hikaru-fragility-strong-words\SKILL.md
+- `0711-spacex-ipo-valuation-math-gap` | tags: ai, business | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0711-spacex-ipo-valuation-math-gap\SKILL.md
+- `0717-mcp-server-ai-business-opportunity` | tags: ai, business | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0717-mcp-server-ai-business-opportunity\SKILL.md
+- `0718-llm-wiki-updatable-rag-karpathy` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0718-llm-wiki-updatable-rag-karpathy\SKILL.md
+- `0722-ohi-kinen-betting-strategy-guide` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0722-ohi-kinen-betting-strategy-guide\SKILL.md
+- `0767-decay-bourgeois-christian-world-social-science` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0767-decay-bourgeois-christian-world-social-science\SKILL.md
+- `0772-men-crying-after-breakup-moments` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0772-men-crying-after-breakup-moments\SKILL.md
+- `0776-hacking-pewdiepie-ai-agent-exploit` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0776-hacking-pewdiepie-ai-agent-exploit\SKILL.md
+- `0779-unlock-growth-through-blind-spots` | tags: ai, personal | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0779-unlock-growth-through-blind-spots\SKILL.md
+- `0783-reclaiming-digital-human-connection` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0783-reclaiming-digital-human-connection\SKILL.md
+- `0787-hanshin-11r-minazuki-stakes-prediction` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0787-hanshin-11r-minazuki-stakes-prediction\SKILL.md
+- `0789-murdered-missing-scientists-thriller-chapter-4` | tags: ai, narrative | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0789-murdered-missing-scientists-thriller-chapter-4\SKILL.md
+- `0790-one-click-defi-economy` | tags: ai, business | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0790-one-click-defi-economy\SKILL.md
+- `0791-marketcards-fractional-trading-card-vision` | tags: ai, business | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0791-marketcards-fractional-trading-card-vision\SKILL.md
+- `0793-pep-guardiola-man-city-departure` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0793-pep-guardiola-man-city-departure\SKILL.md
+- `0794-why-obsidian-second-brain-2026` | tags: ai, personal | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0794-why-obsidian-second-brain-2026\SKILL.md
+- `0795-the-doe-wadatsumi-callas-cenquei` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0795-the-doe-wadatsumi-callas-cenquei\SKILL.md
+- `0796-neo-founders-dispute-governance-crisis` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0796-neo-founders-dispute-governance-crisis\SKILL.md
+- `0811-goat-network-season-2-recap` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0811-goat-network-season-2-recap\SKILL.md
+- `0816-claude-adobe-workflow-optimization` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0816-claude-adobe-workflow-optimization\SKILL.md
+- `0818-oaks-final-verdict-betting-tips` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0818-oaks-final-verdict-betting-tips\SKILL.md
+- `0822-claude-cowork-setup-guide` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0822-claude-cowork-setup-guide\SKILL.md
+- `0824-morning-study-parenting-patience` | tags: ai, personal | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0824-morning-study-parenting-patience\SKILL.md
+- `0829-20-ai-skills-expertise-templates` | tags: ai | D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\red-style-skills\0829-20-ai-skills-expertise-templates\SKILL.md

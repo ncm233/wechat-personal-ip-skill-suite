@@ -55,8 +55,9 @@ The pipeline can accept style parameters:
 ```text
 article_style=<style-id>
 cover_style=<style-id>
-layout_style=<minimalist|bm-green>
+layout_style=<minimalist|bm-green|reference-bold-hierarchy>
 style_library=<path-to-style-library>
+red_style_library=<path-to-red-style-library>
 ```
 
 For the current local YouMind style library, the default generated index is:
@@ -65,15 +66,26 @@ For the current local YouMind style library, the default generated index is:
 D:\Users\ZhuanZ（无密码）\Documents\New project\youmind-style-library\pipeline\style-index.md
 ```
 
+For user-marked red/high-priority style skills, the default generated indexes are:
+
+```text
+D:\Users\ZhuanZ锛堟棤瀵嗙爜锛塡Documents\New project\youmind-style-library\pipeline\red-style-index.md
+D:\Users\ZhuanZ锛堟棤瀵嗙爜锛塡Documents\New project\youmind-style-library\pipeline\red-style-index.json
+```
+
+When a batch request says to prefer red styles, red marked styles, or `red-style-skills`, read `red-style-index.md` first and select article/cover styles from that library before falling back to built-in styles or the larger style library.
+
 When `article_style` is provided:
 
 - If it is a built-in `wechat-rewrite` option such as `default-personal`, `tech-media-news`, or `ai-tech-review`, pass that option directly to `wechat-rewrite`.
 - If it points to a generated style file such as `article-thedankoe`, read the corresponding Markdown file from the style library and use its rules as the rewrite style guide.
+- If it points to a red style skill folder such as `0494-claude-power-user-free-course`, read that folder's `SKILL.md` and apply its writing rules as the article style guide.
 
 When `cover_style` is provided:
 
 - If it is a built-in `wechat-cover-image` option such as `every.to`, `abstract-magazine`, `science-collage`, `classical-dark-poster`, or `dark-woodcut`, pass that option directly to `wechat-cover-image`.
 - If it points to a generated cover style file such as `cover-01-clean-light`, read the corresponding Markdown file and contact sheet from the style library, then use its visual rules as the cover prompt style.
+- If it points to a red style skill folder, read the visual/cover guidance in that folder's `SKILL.md` and use it as a unique cover prompt style for that article. If the red style skill has weak visual guidance, combine its topical aesthetic with one built-in cover style, but record the combined cover style id.
 
 If the user asks to build or refresh the style library, run `wechat-style-factory` first.
 
@@ -81,8 +93,23 @@ When `layout_style` is provided:
 
 - `minimalist` is the default existing WeChat layout: large body text, high whitespace, sparse separators, no decorative template components.
 - `bm-green` uses the imported `wechat-article-formatter` / bm.md `green-simple` style with custom CSS, green accents, black H2 heading chips, styled blockquotes, tables, and code blocks.
+- `reference-bold-hierarchy` follows the referenced public-account layout direction: medium-length article, clean body text, bold hierarchical section headings, H2/H3 levels, and no source-processing explanation in the body.
 - If the user says `wechat-article-formatter`, `bm.md`, `green-simple`, `绿色排版`, or `导入的公众号排版skill`, map it to `layout_style=bm-green`.
+- If the user references `https://mp.weixin.qq.com/s/tS-NFXhyg0EO-fUDEmH5gw`, says `排版和字数参考这个账号`, `每段标题加粗分级`, `标题加粗分级`, or asks for reference-account formatting, map it to `layout_style=reference-bold-hierarchy`.
 - If the user does not specify a layout style, use `minimalist`.
+
+## Batch Style Diversity Rules
+
+For any batch request that generates more than one article:
+
+- Create a `batch-style-plan.json` before generation. Save each article's selected `article_style`, `cover_style`, and `layout_style`.
+- Prefer red marked style skills from `red-style-index.md` for both article style and cover style when the user asks for red/high-priority styles.
+- Assign a different article style to every article in the same batch. Do not reuse an article style until all relevant red styles or available style-library styles have been used.
+- Assign a different cover style to every article in the same batch. Do not reuse a cover style within the same batch unless the batch size exceeds the available cover styles. Mix built-in cover styles with red style skill visual guidance when needed.
+- Save each article's final assignment in `metadata.json` and `style-assignment.json`.
+- If a user explicitly says each cover must be different, treat duplicate cover styles as a validation failure and reassign before generating images.
+- For generated cover prompts, include the unique `cover_style` id and a visibly different visual system per article: palette, material, composition logic, and metaphor should vary, not only the text prompt.
+- Keep each article independent. Do not include source-processing context such as `from YouMind`, `based on the page`, `this source says`, or `rewritten from...` in the body.
 
 ## Workflow
 
@@ -141,11 +168,11 @@ Use `wechat-layout` on `rewritten.md`, applying `layout_style` when provided. Sa
 - `article.html`
 - `article.txt`
 
-For `minimalist`, run the existing `format_wechat_article.py` flow. For `bm-green`, run `format_bm_md_article.py`, which renders through bm.md with the imported `wechat-article-formatter` CSS and also writes `article.bm.md`.
+For `minimalist`, run the existing `format_wechat_article.py` flow. For `bm-green`, run `format_bm_md_article.py`, which renders through bm.md with the imported `wechat-article-formatter` CSS and also writes `article.bm.md`. For `reference-bold-hierarchy`, run `format_reference_bold_article.py`, which creates inline WeChat HTML with bold H2/H3 section hierarchy.
 
 Validate that the HTML contains only the final article body, not title candidates or rewrite notes. Keep the recommended title separately for draft upload.
 
-Validate that the generated HTML preserves import-ready formatting before moving to draft upload. It must include inline `style=`, `font-size`, `line-height`, and paragraph tags. For `minimalist`, expect the inline paragraph typography from `format_wechat_article.py`. For `bm-green`, expect bm.md/green markers such as `id="bm-md"`, `green-simple`, or green accent styles. If these checks fail, regenerate layout and do not upload.
+Validate that the generated HTML preserves import-ready formatting before moving to draft upload. It must include inline `style=`, `font-size`, `line-height`, and paragraph tags. For `minimalist`, expect the inline paragraph typography from `format_wechat_article.py`. For `bm-green`, expect bm.md/green markers such as `id="bm-md"`, `green-simple`, or green accent styles. For `reference-bold-hierarchy`, expect `<strong>`, `font-weight: 700`, `font-size: 20px` H2 headings, and `font-size: 17px` body/H3 text. If these checks fail, regenerate layout and do not upload.
 
 ### Step 6: Draft-Box Upload
 

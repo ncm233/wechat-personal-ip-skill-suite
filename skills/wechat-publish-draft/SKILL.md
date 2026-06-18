@@ -59,6 +59,7 @@ Check:
 - HTML preserves visible article formatting: require inline `style=`, `font-size`, `line-height`, and paragraph tags before any network upload.
 - If the layout is `minimalist`, confirm the exported HTML still includes the inline paragraph typography from `wechat-layout`.
 - If the layout is `bm-green`, confirm the exported HTML includes bm.md/green markers such as `id="bm-md"`, `green-simple`, or green accent styles.
+- If the layout is `reference-bold-hierarchy`, confirm the exported HTML includes `<strong>`, `font-weight: 700`, and a visible heading/body hierarchy such as `font-size: 20px` for section titles and `font-size: 17px` for body text.
 - If formatting validation fails, stop before `get_access_token`, media upload, or draft creation; regenerate layout and retry.
 - Any local `<img src="...">` paths are reachable from the HTML file directory or absolute paths.
 
